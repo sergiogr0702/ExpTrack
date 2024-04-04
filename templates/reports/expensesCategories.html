@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Expenses Categories{% endblock %}
+
+{% block body  %}
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800 text-center">Expenses per Categories</h1>
+        <p class="mt-2 text-center">This chart shows the top 10 categories that have more expenses in the ExpTrack application.</p>
+        <div class="p-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary text-center">Expenses per Categories</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-bar">
+                        <canvas id="expensesCategories"></canvas>
+                    </div>
+                    <div class="text-center" id="error-container"></div>
+                </div>
+            </div>
+        </div>    
+    </div>
+{% endblock body %}
+
+{% block extra_scripts %}
+    <!-- Page level plugins -->
+    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'js/demo/chart-bar.js' %}"></script>
+
+    <script>
+        var expensesCategoriesData = JSON.parse('{{ expenses_categories|escapejs }}');
+        var labels = expensesCategoriesData.map(function(category) {
+            return category.name;
+        });
+        var data = expensesCategoriesData.map(function(category) {
+            return category.total_expenses;
+        });
+        if (labels.length === 0) {
+            document.getElementById('error-container').innerHTML = '<p>No data to display!</p>';
+        } else {
+            generateBarChart("expensesCategories", labels, data, "Expenses", 2);
+        }
+    </script>
+{% endblock %}

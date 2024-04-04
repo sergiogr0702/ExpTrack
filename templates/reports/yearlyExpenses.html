@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Annual Expenses{% endblock %}
+
+{% block body  %}
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800 text-center">Annual Expenses</h1>
+        <p class="mt-2 text-center">This area chart shows the annual expenses in the ExpTrack application.</p>
+        <div class="p-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary text-center">Annual Expenses</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="yearlyExpenses"></canvas>
+                    </div>
+                    <div class="text-center" id="error-container"></div>
+                </div>
+            </div>
+        </div>    
+    </div>
+{% endblock body %}
+
+{% block extra_scripts %}
+    <!-- Page level plugins -->
+    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'js/demo/chart-area.js' %}"></script>
+    <script>
+        var yearlyExpensesData = JSON.parse('{{ yearly_expenses|escapejs }}');
+        var labels = yearlyExpensesData.map(function(entry) {
+            return entry.year;
+        });
+        var data = yearlyExpensesData.map(function(entry) {
+            return entry.expenses;
+        });
+        if (labels.length === 0) {
+            document.getElementById('error-container').innerHTML = '<p>No data to display!</p>';
+        } else {
+            generateAreaChart("yearlyExpenses", labels, data, 2);
+        }
+    </script>
+{% endblock %}

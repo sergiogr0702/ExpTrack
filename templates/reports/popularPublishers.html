@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Popular publishers{% endblock %}
+
+{% block body  %}
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800 text-center">Popular publishers</h1>
+        <p class="mt-2 text-center">This donut chart shows the popular publishers in the ExpTrack application.</p>
+        <div class="p-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-12">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary text-center">Popular publishers</h6>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body" id="canvas-holder">
+                                <div class="chart-pie pt-4">
+                                    <canvas id="pieChart"></canvas>
+                                </div>
+                                <div class="text-center" id="error-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="card shadow mb-4">
+                            <h4 class="h4 text-gray-800 text-center mt-2">Publishers summary</h4>
+                            <ul id="legendList" class="list-group list-group-flush"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+{% endblock body %}
+
+{% block extra_scripts %}
+    <!-- Page level plugins -->
+    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'js/demo/chart-pie.js' %}"></script>
+
+    <script>
+        function generateLegendItems(topPublishersData) {
+            var backgroundColors = ['#4e73df', '#1cc88a', '#36b9cc', '#ff7f50', '#8a2be2', '#008080', '#ffa07a', '#bada55', '#800080', '#ffd700', '#00bfff', '#808000', '#6610f2', '#e83e8c', '#fd7e14', '#20c997'];
+            var legendList = document.getElementById('legendList');
+
+            topPublishersData.forEach(function(publisher, index) {
+                var listItem = document.createElement('li');
+                listItem.className = 'list-group-item';
+                listItem.innerHTML = '<span style="background-color:' + backgroundColors[index] + '; width: 20px; height: 20px; display: inline-block; margin-right: 10px;"></span>' + publisher.publisher + ': ' + publisher.num_books;
+                legendList.appendChild(listItem);
+            });
+        }
+
+        var topPublishersData = JSON.parse('{{ popular_publishers|escapejs }}');
+        var labels = topPublishersData.map(function(publisher) {
+            return publisher.publisher;
+        });
+        var data = topPublishersData.map(function(publisher) {
+            return publisher.num_books;
+        });
+        if (labels.length === 1) {
+            document.getElementById('error-container').innerHTML = '<p>No data to display!</p>';
+        } else {
+            generatePieChart("pieChart", labels, data);
+            generateLegendItems(topPublishersData);
+        }
+    </script>
+{% endblock %}

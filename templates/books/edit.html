@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Book{% endblock %}
+
+{% block body  %}
+
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800 text-center">Edit Book</h1>
+        <div class="p-5">
+            <div class="card o-hidden border-0 shadow-lg">
+                <div class="card-body">
+                    <!-- Nested Row within Card Body -->
+                    <form action='handleEdit/' method='post'>
+                        {% csrf_token %}
+                        <div class="row">      
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="title">Book title</label>
+                                    <input class="form-control form-control-user"
+                                    id="title" name="title" type="text"
+                                    placeholder="Enter book title"
+                                    style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                    value="{{ book.title }}"
+                                    required/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="small mb-1" for="subtitle">Book subtitle</label>
+                                    <input class="form-control form-control-user" id="subtitle"
+                                    name="subtitle" type="text" placeholder="Enter book subtitle"
+                                    value="{{ book.subtitle }}"
+                                    style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="small mb-1" for="authors">Authors</label>
+                                    <input class="form-control form-control-user" id="authors"
+                                    name="authors" type="text" placeholder="Enter authors separated by commas"
+                                    value="{{ book.authors }}"
+                                    style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="small mb-1" for="publisher">Publisher</label>
+                                    <input class="form-control form-control-user" id="publisher"
+                                    name="publisher" type="text" placeholder="Enter publisher"
+                                    value="{{ book.publisher }}"
+                                    style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="small mb-1" for="publisher_date">Publisher Date</label>
+                                    <input class="form-control form-control-user" id="publisher_date"
+                                    name="publisher_date" type="date"
+                                    value="{{ book.publisher_date }}"
+                                    style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="category">Category</label>
+                                    <select class="form-select" id="category"
+                                    name="category" style="font-size: .8rem; border-radius: 10rem; padding: 0.9rem 1rem;"
+                                    required>
+                                        <option value="">Select a category</option>
+                                        {% for category in categories %}
+                                            <option 
+                                                value="{{ category.id }}"
+                                                {% if category.id == book.category.id %}selected{% endif %}>
+                                                    {{ category.name }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="small mb-1" for="distribution_expense">Distribution Expense</label>
+                                    <input class="form-control form-control-user" id="distribution_expense"
+                                    name="distribution_expense" type="number" placeholder="Enter the distribution expense"
+                                    style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                    value="{{ book.distribution_expense }}"
+                                    step="any" required/>
+                                </div>
+                                <button type="submit"
+                                class="btn btn-primary btn-user btn-block mt-5"
+                                style="font-size: .8rem; border-radius: 10rem; padding: 0.9rem 0.2rem;">
+                                    Edit
+                                </button>
+                            </div>  
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>    
+    </div>
+{% endblock body %}
+
+{% block extra_css %}
+    <link href="{% static 'css/form.css' %}" rel="stylesheet">
+{% endblock %}

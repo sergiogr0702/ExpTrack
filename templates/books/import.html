@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Import To Books{% endblock %}
+
+{% block body  %}
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800 text-center">Import to Books from Excel</h1>
+        <p class="mt-2 text-center">To import the data from a file to create new books you must submit an Excel file with the following columns: id, title, subtitle, authors, publisher, published_date, category, distribution_expense.</p>
+        <div class="p-5">
+            <div class="card o-hidden border-0 shadow-lg">
+                <div class="card-body">
+                    <form action='handleImport/' method='post' enctype="multipart/form-data" class="dropzone" id="myDropzone">
+                        {% csrf_token %}
+                    </form>
+                    <div class="row">
+                        <button type="submit" id="submit"
+                        class="btn btn-primary btn-user btn-block mt-4"
+                        style="font-size: .8rem; border-radius: 10rem; padding: 0.9rem 0.2rem;">
+                            Import data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+{% endblock body %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <script type="text/javascript">
+        Dropzone.autoDiscover = false;
+        document.addEventListener("DOMContentLoaded", function() {
+            var myDropzone = new Dropzone("#myDropzone", {
+                url: "handleImport/",
+                maxFiles: 1,
+                acceptedFiles: ".xlsx,.xls",
+                autoProcessQueue: false,
+                init: function() {
+                    var submitButton = document.querySelector("#submit");
+                    myDropzone = this;
+
+                    submitButton.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        myDropzone.processQueue();
+                    });
+
+                    myDropzone.on("success", function(file, response) {
+                        if (response.success) {
+                            window.location.href = response.redirect_url;
+                        }
+                    });
+
+                    myDropzone.on("error", function(file, response) {
+                        if (!response.success) {
+                            console.log(response.error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock %}

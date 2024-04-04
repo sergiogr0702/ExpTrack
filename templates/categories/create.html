@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add a new Category{% endblock %}
+
+{% block body  %}
+
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800 text-center">Add a new Category</h1>
+        <div class="p-5">
+            <div class="card o-hidden border-0 shadow-lg">
+                <div class="card-body">
+                    <!-- Nested Row within Card Body -->
+                    <form action='handleCreate/' method='post'>
+                        {% csrf_token %}
+                        <div class="row">      
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="name">Category name</label>
+                                    <input class="form-control form-control-user"
+                                    id="name" name="name" type="text"
+                                    placeholder="Enter category name"
+                                    style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                    required/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <button type="submit"
+                                class="btn btn-primary btn-user btn-block mt-4"
+                                style="font-size: .8rem; border-radius: 10rem; padding: 0.9rem 0.2rem;">
+                                    Create
+                                </button>
+                            </div>  
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>    
+    </div>
+{% endblock body %}

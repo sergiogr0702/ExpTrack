@@ -1,0 +1,103 @@
+{% extends 'base2.html' %}
+{% block body  %}
+<div class="bg-image"></div>
+
+<div class="bg-text">
+    <body class="bg-register">
+        <div id="layoutAuthentication">
+            <div id="layoutAuthentication_content">
+                <main>
+                    <div class="container" style="margin-bottom:15px;">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-7">
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card-header"><h1 class="text-center font-weight-light my-4">Create an Account on ExpTrack</h1></div>
+                                    <div class="card-body">
+                                        <form action="/handlesignup/" method='post'>
+                                        {% csrf_token %} 
+                                            <div class="form-row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="small mb-1" for="uname">User Name</label>
+                                                        <input class="form-control py-4" id="uname"
+                                                        name="uname" type="text"
+                                                        placeholder="Enter User Name"
+                                                        style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                                        required/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                             <div class="form-row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="small mb-1" for="inputFirstName">First Name</label>
+                                                        <input class="form-control py-4" id="fname" 
+                                                        name="fname" type="text"
+                                                        style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                                        placeholder="Enter first name" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="small mb-1" for="inputLastName">Last Name</label>
+                                                        <input class="form-control py-4" id="lname"
+                                                        name="lname" type="text"
+                                                        style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                                        placeholder="Enter last name" />
+                                                    </div>
+                                                </div>
+                                            </div>   
+                                                
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputEmailAddress">Email</label>
+                                                <input class="form-control py-4" id="email"
+                                                name="email" type="email" aria-describedby="emailHelp"
+                                                style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                                placeholder="Enter email address" required />
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="small mb-1" for="inputPassword">Password</label>
+                                                        <input class="form-control py-4" id="pass1"
+                                                        name="pass1" type="password"
+                                                        style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                                        placeholder="Enter password" required />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="small mb-1" for="inputConfirmPassword">Confirm Password</label>
+                                                        <input class="form-control py-4" id="pass2"
+                                                        name="pass2" type="password"
+                                                        style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                                        placeholder="Confirm password" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="form-group mt-4 mb-0">
+                                                    <button type="submit" 
+                                                    class="btn btn-primary btn-block mt-2"
+                                                    style="font-size: 1rem; border-radius: 10rem; padding: 1rem 1rem;">
+                                                        Create User
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <div class="small"><a href="/">Have an account? Go to login</a></div>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </main>
+            </div>
+    </div>
+    </body>
+</html>
+{% endblock body %}

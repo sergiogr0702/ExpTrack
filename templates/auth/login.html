@@ -1,0 +1,61 @@
+{% extends 'base1.html' %}
+{% block body  %}
+
+<div class="bg-text">
+    <body class="bg-login">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="p-5">
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            <div class="row">
+                                <div class="">
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <h1 class="h4 text-gray-900 mb-4">Welcome Back to ExpTrack!</h1>
+                                        </div>
+                                        <form action='/handlelogin/' method='post'>
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                    <input class="form-control form-control-user"
+                                                    id="loginuname" name="loginuname" type="text"
+                                                    placeholder="Enter user name"
+                                                    style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                                    required/>
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-control form-control-user" id="loginpassword1"
+                                                name="loginpassword1" type="password" placeholder="Enter password"
+                                                style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                                required/>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox small">
+                                                    <input class="custom-control-input" id="rememberPasswordCheck" type="checkbox" reqired />
+                                                    <label class="custom-control-label" for="rememberPasswordCheck">Remember password</label>
+                                                </div>
+                                            </div>
+                                            <button type="submit"
+                                            class="btn btn-primary btn-user btn-block"
+                                            style="font-size: .8rem; border-radius: 10rem; padding: 0.9rem 0.2rem;">
+                                                Login
+                                            </button>
+                                        </form>
+                                        <div class="text-center mt-4">
+                                            <a class="small" href="#">Forgot Password?</a>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="small"><a href="/register">Need an account? Sign up!</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile Edit{% endblock %}
+
+{% block body  %}
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <div class="container" style="margin-bottom:15px;">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="card shadow-lg border-0 rounded-lg mt-5">
+                            <div class="card-header"><h1 class="text-center font-weight-light my-4">Edit Profile</h1></div>
+                            <div class="card-body">
+                                <form action="/profile/{{ user.id }}/profile_update/" method='post'>
+                                {% csrf_token %} 
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="uname">User Name</label>
+                                                <input class="form-control py-4" id="uname"
+                                                name="uname" type="text"
+                                                placeholder="Enter User Name"
+                                                value="{{ user.username }}"
+                                                style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                                required/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputFirstName">First Name</label>
+                                                <input class="form-control py-4" id="fname" 
+                                                name="fname" type="text"
+                                                value="{{ user.first_name }}"
+                                                style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                                placeholder="Enter first name" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputLastName">Last Name</label>
+                                                <input class="form-control py-4" id="lname"
+                                                name="lname" type="text"
+                                                value="{{ user.last_name }}"
+                                                style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                                placeholder="Enter last name" />
+                                            </div>
+                                        </div>
+                                    </div>   
+                                        
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="inputEmailAddress">Email</label>
+                                        <input class="form-control py-4" id="email"
+                                        name="email" type="email" aria-describedby="emailHelp"
+                                        value="{{ user.email }}"
+                                        style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                        placeholder="Enter email address" required />
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputPassword">New Password</label>
+                                                <input class="form-control py-4" id="pass1"
+                                                name="pass1" type="password"
+                                                style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                                placeholder="Enter password" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputConfirmPassword">Confirm new Password</label>
+                                                <input class="form-control py-4" id="pass2"
+                                                name="pass2" type="password"
+                                                style="font-size: .8rem; border-radius: 10rem; padding: 1.5rem 1rem;"
+                                                placeholder="Confirm password" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-group mt-4 mb-0">
+                                            <button type="submit" 
+                                            class="btn btn-primary btn-block mt-2"
+                                            style="font-size: 1rem; border-radius: 10rem; padding: 1rem 1rem;">
+                                                Update Profile
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

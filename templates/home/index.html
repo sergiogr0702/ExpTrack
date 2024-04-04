@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body  %}
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Total number of books</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_books }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-solid fa-book fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Total number of categories</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_categories }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-solid fa-layer-group fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Categories with no books</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_categories_with_no_books }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-solid fa-folder-minus fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                    Total Expenses</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">${{ total_expenses }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row -->
+
+        <div class="row">
+
+            <!-- Area Chart -->
+            <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div
+                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Annual expenses</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="anualExpenses"></canvas>
+                        </div>
+                        <div class="text-center" id="error-container-1"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="col-xl-4 col-lg-5">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div
+                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Popular publishers</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-pie pt-4 pb-2">
+                            <canvas id="popularPublishers"></canvas>
+                        </div>
+                        <div class="text-center" id="error-container-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block extra_scripts %}
+    <!-- Page level plugins -->
+    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'js/demo/chart-area.js' %}"></script>
+    <script src="{% static 'js/demo/chart-pie.js' %}"></script>
+
+    <script>
+        var yearlyExpensesData = JSON.parse('{{ yearly_expenses|escapejs }}');
+        var labels = yearlyExpensesData.map(function(entry) {
+            return entry.year;
+        });
+        var data = yearlyExpensesData.map(function(entry) {
+            return entry.expenses;
+        });
+        if (labels.length === 0) {
+            document.getElementById('error-container-1').innerHTML = '<p>No data to display!</p>';
+        } else {
+            generateAreaChart("anualExpenses", labels, data, 2);
+        }
+    </script>
+
+    <script>
+        function generateLegendItems(topPublishersData) {
+            var backgroundColors = ['#4e73df', '#1cc88a', '#36b9cc', '#ff7f50', '#8a2be2', '#008080', '#ffa07a', '#bada55', '#800080', '#ffd700', '#00bfff', '#808000', '#6610f2', '#e83e8c', '#fd7e14', '#20c997'];
+            var legendList = document.getElementById('legendList');
+
+            topPublishersData.forEach(function(publisher, index) {
+                var listItem = document.createElement('li');
+                listItem.className = 'list-group-item';
+                listItem.innerHTML = '<span style="background-color:' + backgroundColors[index] + '; width: 20px; height: 20px; display: inline-block; margin-right: 10px;"></span>' + publisher.publisher + ': ' + publisher.num_books;
+                legendList.appendChild(listItem);
+            });
+        }
+
+        var topPublishersData = JSON.parse('{{ popular_publishers|escapejs }}');
+        var labels = topPublishersData.map(function(publisher) {
+            return publisher.publisher;
+        });
+        var data = topPublishersData.map(function(publisher) {
+            return publisher.num_books;
+        });
+        if (labels.length === 1) {
+            document.getElementById('error-container-2').innerHTML = '<p>No data to display!</p>';
+        } else {
+            generatePieChart("popularPublishers", labels, data);
+            generateLegendItems(topPublishersData);
+        }
+    </script>
+{% endblock %}
