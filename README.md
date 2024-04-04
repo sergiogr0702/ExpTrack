@@ -261,11 +261,11 @@ In this section you can find some examples of the application running:
 
 - Books import
 
-![Book-import]
+![Books-import]
 
 - Categories import
 
-![Category-import]
+![Categories-import]
 
 - Report 1
 
